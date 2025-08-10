@@ -1,0 +1,26 @@
+<!-- src/main/resources/templates/education.html -->
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Education</title>
+    <style>
+        body { font-family: Arial; padding: 20px; }
+        .section { display: flex; margin-bottom: 20px; box-shadow: 2px 2px 10px rgba(0,0,0,0.2); }
+        .left { background-color: #dc6b6b; padding: 20px; color: white; width: 250px; font-weight: bold; }
+        .right { padding: 20px; }
+        h2 { margin: 0 0 10px 0; }
+        .institution { color: gray; }
+    </style>
+</head>
+<body>
+    <h1>Education</h1>
+    <div th:each="edu : ${educationList}" class="section">
+        <div class="left" th:text="${edu.duration} + ' &#10;' + ${edu.degree}"></div>
+        <div class="right">
+            <h2 th:text="${edu.degree}"></h2>
+            <div class="institution" th:text="${edu.institution}"></div>
+            <p th:utext="${edu.description}"></p>
+        </div>
+    </div>
+</body>
+</html>

@@ -1,0 +1,15 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Skills Page</title>
+</head>
+<body>
+
+<h1>SKILLS</h1>
+
+<ul>
+    <li th:each="skill : ${skills}" th:text="${skill.name}"></li>
+</ul>
+
+</body>
+</html>
