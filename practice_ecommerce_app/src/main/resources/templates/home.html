@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Home Page</title>
+    <style>
+        table, th, td {
+            border: 1px solid black;
+            border-collapse: collapse;
+            padding: 8px;
+        }
+        th {
+            background-color: #f2f2f2;
+        }
+    </style>
+</head>
+<body>
+    <h2>This is a Home Page</h2>
+    <nav>
+        <a href="/add-customer">Add Customer</a>
+    </nav>
+
+    <h2>All Customers</h2>
+
+    <table>
+        <thead>
+            <tr>
+                <th>S.No</th>
+                <th>Name</th>
+                <th>Email</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr th:each="customer, iterStat : ${customerList}">
+                <td th:text="${iterStat.count}"></td>
+                <td th:text="${customer.name}"></td>
+                <td th:text="${customer.email}"></td>
+                <td>
+    <a th:href="@{'/edit/' + ${customer.id}}">Edit</a>
+</td>
+                <td>
+    <a th:href="@{'/delete/' + ${customer.id}}">Delete</a>
+</td>
+                
+            </tr>
+        </tbody>
+    </table>
+</body>
+</html>
