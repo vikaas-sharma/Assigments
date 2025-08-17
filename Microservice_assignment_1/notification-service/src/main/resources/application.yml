@@ -1,0 +1,25 @@
+server:
+  port: 8085
+
+spring:
+  application:
+    name: notification-service
+  jpa:
+    hibernate:
+      ddl-auto: update
+    properties:
+      hibernate:
+        dialect: org.hibernate.dialect.PostgreSQLDialect
+  datasource:
+    url: jdbc:postgresql://localhost:5432/notification
+    username: postgres
+    password: postgres
+  kafka:
+    bootstrap-servers: ${
+      SPRING_KAFKA_BOOTSTRAP_SERVERS:kafka:9092
+    }
+    consumer:
+      group-id: notification-service-group
+      auto-offset-reset: earliest
+jwt:
+  secret: ${JWT_SECRET:dev-secret-change-me}

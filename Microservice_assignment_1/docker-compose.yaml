@@ -1,0 +1,143 @@
+services:
+  zookeeper:
+    image: bitnami/zookeeper:3.9
+    environment:
+      - ALLOW_ANONYMOUS_LOGIN=yes
+    ports:
+      - "2181:2181"
+
+  kafka:
+    image: bitnami/kafka:3.7
+    depends_on:
+      - zookeeper
+    environment:
+      - KAFKA_CFG_ZOOKEEPER_CONNECT=zookeeper:2181
+      - ALLOW_PLAINTEXT_LISTENER=yes
+      - KAFKA_CFG_LISTENERS=PLAINTEXT://:9092
+      - KAFKA_CFG_ADVERTISED_LISTENERS=PLAINTEXT://kafka:9092
+    ports:
+      - "9092:9092"
+
+  api-gateway:
+    build: ./api-gateway
+    environment:
+      - JWT_SECRET=dev-secret-change-me
+      - ROUTES_USER=http://user-service:8081
+      - ROUTES_COURSE=http://course-service:8082
+      - ROUTES_CLASSROOM=http://classroom-service:8083
+      - ROUTES_ASSESSMENT=http://assessment-service:8084
+      - ROUTES_NOTIFICATION=http://notification-service:8085
+    ports:
+      - "8080:8080"
+    depends_on:
+      - user-service
+      - course-service
+      - classroom-service
+      - assessment-service
+      - notification-service
+
+  user-service:
+    build: ./user-service
+    environment:
+      - SPRING_DATASOURCE_URL=jdbc:postgresql://user-db:5432/users
+      - SPRING_DATASOURCE_USERNAME=postgres
+      - SPRING_DATASOURCE_PASSWORD=postgres
+      - JWT_SECRET=dev-secret-change-me
+      - SPRING_KAFKA_BOOTSTRAP_SERVERS=kafka:9092
+    ports:
+      - "8081:8081"
+    depends_on:
+      - user-db
+      - kafka
+
+  user-db:
+    image: postgres:16
+    environment:
+      - POSTGRES_PASSWORD=postgres
+      - POSTGRES_DB=users
+    ports:
+      - "54321:5432"
+
+  course-service:
+    build: ./course-service
+    environment:
+      - SPRING_DATASOURCE_URL=jdbc:postgresql://course-db:5432/courses
+      - SPRING_DATASOURCE_USERNAME=postgres
+      - SPRING_DATASOURCE_PASSWORD=postgres
+      - SPRING_KAFKA_BOOTSTRAP_SERVERS=kafka:9092
+    ports:
+      - "8082:8082"
+    depends_on:
+      - course-db
+      - kafka
+
+  course-db:
+    image: postgres:16
+    environment:
+      - POSTGRES_PASSWORD=postgres
+      - POSTGRES_DB=courses
+    ports:
+      - "54322:5432"
+
+  classroom-service:
+    build: ./classroom-service
+    environment:
+      - SPRING_DATASOURCE_URL=jdbc:postgresql://classroom-db:5432/classroom
+      - SPRING_DATASOURCE_USERNAME=postgres
+      - SPRING_DATASOURCE_PASSWORD=postgres
+      - SPRING_KAFKA_BOOTSTRAP_SERVERS=kafka:9092
+    ports:
+      - "8083:8083"
+    depends_on:
+      - classroom-db
+      - kafka
+
+  classroom-db:
+    image: postgres:16
+    environment:
+      - POSTGRES_PASSWORD=postgres
+      - POSTGRES_DB=classroom
+    ports:
+      - "54323:5432"
+
+  assessment-service:
+    build: ./assessment-service
+    environment:
+      - SPRING_DATASOURCE_URL=jdbc:postgresql://assessment-db:5432/assessments
+      - SPRING_DATASOURCE_USERNAME=postgres
+      - SPRING_DATASOURCE_PASSWORD=postgres
+      - SPRING_KAFKA_BOOTSTRAP_SERVERS=kafka:9092
+    ports:
+      - "8084:8084"
+    depends_on:
+      - assessment-db
+      - kafka
+
+  assessment-db:
+    image: postgres:16
+    environment:
+      - POSTGRES_PASSWORD=postgres
+      - POSTGRES_DB=assessments
+    ports:
+      - "54324:5432"
+
+  notification-service:
+    build: ./notification-service
+    environment:
+      - SPRING_DATASOURCE_URL=jdbc:postgresql://notification-db:5432/notifications
+      - SPRING_DATASOURCE_USERNAME=postgres
+      - SPRING_DATASOURCE_PASSWORD=postgres
+      - SPRING_KAFKA_BOOTSTRAP_SERVERS=kafka:9092
+    ports:
+      - "8085:8085"
+    depends_on:
+      - notification-db
+      - kafka
+
+  notification-db:
+    image: postgres:16
+    environment:
+      - POSTGRES_PASSWORD=postgres
+      - POSTGRES_DB=notifications
+    ports:
+      - "54325:5432"

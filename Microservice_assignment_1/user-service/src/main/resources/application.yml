@@ -1,0 +1,25 @@
+server:
+  port: 8081
+
+spring:
+  application:
+    name: user-service
+  jpa:
+    hibernate:
+      ddl-auto: update
+    properties:
+      hibernate:
+        dialect: org.hibernate.dialect.PostgreSQLDialect
+  datasource:
+    url: jdbc:postgresql://localhost:5432/user
+    username: postgres
+    password: postgres
+  kafka:
+    bootstrap-servers: ${
+      SPRING_KAFKA_BOOTSTRAP_SERVERS:kafka:9092
+    }
+    consumer:
+      group-id: user-service-group
+      auto-offset-reset: earliest
+jwt:
+  secret: ${JWT_SECRET:dev-secret-change-me}

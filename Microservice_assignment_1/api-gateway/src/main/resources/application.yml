@@ -1,0 +1,14 @@
+server:
+  port: 8080
+jwt:
+  secret: ${JWT_SECRET:dev-secret-change-me}
+
+routes:
+  user: ${ROUTES_USER:http://localhost:8081}
+  course: ${ROUTES_COURSE:http://localhost:8082}
+  classroom: ${ROUTES_CLASSROOM:http://localhost:8083}
+  assessment: ${ROUTES_ASSESSMENT:http://localhost:8084}
+  notification: ${ROUTES_NOTIFICATION:http://localhost:8085}
+spring:
+  main:
+    web-application-type: reactive
