@@ -1,0 +1,61 @@
+package com.example.medical_records_service.controller;
+
+package com.example.medicalrecords.controller;
+
+import com.example.medicalrecords.model.MedicalRecord;
+import com.example.medicalrecords.service.MedicalRecordService;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
+import java.util.Map;
+
+@RestController
+@RequestMapping("/medical-records")
+public class MedicalRecordController {
+
+    private final MedicalRecordService service;
+
+    public MedicalRecordController(MedicalRecordService service) {
+        this.service = service;
+    }
+
+    // ✅ Appointment Service will call this API
+    @PostMapping("/{patientId}/visits")
+    public MedicalRecord addVisit(
+            @PathVariable Long patientId,
+            @RequestBody Map<String, String> payload
+    ) {
+        MedicalRecord record = new MedicalRecord();
+        record.setPatientId(patientId);
+        record.setVisitDate(payload.get("visitDate"));
+        record.setDoctorName(payload.get("doctorName"));
+        record.setDiagnosis(payload.get("diagnosis")); // default: "Pending"
+        return service.saveRecord(record);
+    }
+
+    // ✅ Doctor can later update prescription
+    @PutMapping("/{recordId}/prescription")
+    public MedicalRecord updatePrescription(
+            @PathVariable Long recordId,
+            @RequestBody Map<String, String> payload
+    ) {
+        MedicalRecord record = service.getAllRecords()
+                .stream().filter(r -> r.getId().equals(recordId))
+                .findFirst().orElseThrow();
+
+        record.setPrescription(payload.get("prescription"));
+        return service.saveRecord(record);
+    }
+
+    // ✅ Get all records for a patient
+    @GetMapping("/{patientId}")
+    public List<MedicalRecord> getRecords(@PathVariable Long patientId) {
+        return service.getRecordsByPatient(patientId);
+    }
+
+    // ✅ Get all records (admin)
+    @GetMapping
+    public List<MedicalRecord> getAll() {
+        return service.getAllRecords();
+    }
+}

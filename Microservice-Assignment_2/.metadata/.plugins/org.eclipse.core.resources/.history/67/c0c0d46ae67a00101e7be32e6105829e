@@ -1,0 +1,46 @@
+package com.example.doctor_service.service;
+
+import com.example.doctor_service.model.Doctor;
+import com.example.doctor_service.repository.DoctorRepository;
+import org.springframework.stereotype.Service;
+
+import java.util.List;
+
+@Service
+public class DoctorService {
+
+    private final DoctorRepository repository;
+
+    public DoctorService(DoctorRepository repository) {
+        this.repository = repository;
+    }
+    
+    private final DoctorRepository doctorRepository;
+    private final DoctorScheduleRepository scheduleRepository;
+
+    public DoctorService(DoctorRepository doctorRepository,
+                         DoctorScheduleRepository scheduleRepository) {
+        this.doctorRepository = doctorRepository;
+        this.scheduleRepository = scheduleRepository;
+    }
+
+    public List<Doctor> getAllDoctors() {
+        return repository.findAll();
+    }
+
+    public Doctor getDoctorById(Long id) {
+        return repository.findById(id).orElse(null);
+    }
+
+    public List<Doctor> getDoctorsBySpecialization(String specialization) {
+        return repository.findBySpecialization(specialization);
+    }
+
+    public Doctor saveDoctor(Doctor doctor) {
+        return repository.save(doctor);
+    }
+
+    public void deleteDoctor(Long id) {
+        repository.deleteById(id);
+    }
+}

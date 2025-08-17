@@ -1,0 +1,36 @@
+package com.healthcare.patientservice.model;
+
+import jakarta.persistence.*;
+import lombok.*;
+
+import java.time.LocalDate;
+
+@Entity
+@Table(name = "patients")
+@Data
+@NoArgsConstructor
+@AllArgsConstructor
+@Builder
+public class Patient {
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long patientId;
+
+    private String firstName;
+    private String lastName;
+
+    private LocalDate dob;
+
+    @Enumerated(EnumType.STRING)
+    private Gender gender;
+
+    private String contactNumber;
+    private String email;
+    private String address;
+
+    private Long insuranceId;
+
+    public enum Gender {
+        Male, Female, Other
+    }
+}

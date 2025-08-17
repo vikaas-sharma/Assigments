@@ -1,0 +1,58 @@
+package com.example.doctor_service.controller;
+
+import com.example.doctor_service.model.Doctor;
+import com.example.doctor_service.service.DoctorService;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
+
+@RestController
+@RequestMapping("/api/doctors")
+public class DoctorController {
+
+    private final DoctorService service;
+
+    public DoctorController(DoctorService service) {
+        this.service = service;
+    }
+
+    @GetMapping
+    public List<Doctor> getAllDoctors() {
+        return service.getAllDoctors();
+    }
+
+    @GetMapping("/{id}")
+    public Doctor getDoctor(@PathVariable Long id) {
+        return service.getDoctorById(id);
+    }
+
+    @GetMapping("/specialization/{specialization}")
+    public List<Doctor> getDoctorsBySpecialization(@PathVariable String specialization) {
+        return service.getDoctorsBySpecialization(specialization);
+    }
+
+    @PostMapping
+    public Doctor createDoctor(@RequestBody Doctor doctor) {
+        return service.saveDoctor(doctor);
+    }
+
+    @PutMapping("/{id}")
+    public Doctor updateDoctor(@PathVariable Long id, @RequestBody Doctor doctor) {
+        doctor.setId(id);
+        return service.saveDoctor(doctor);
+    }
+
+    @DeleteMapping("/{id}")
+    public void deleteDoctor(@PathVariable Long id) {
+        service.deleteDoctor(id);
+    }
+    
+    // 🔵 Naya endpoint for blocking slot
+    @PostMapping("/{doctorId}/block")
+    public boolean blockDoctorSlot(
+            @PathVariable Long doctorId,
+            @RequestParam String time
+    ) {
+        return doctorService.blockSlot(doctorId, time);
+    }
+}

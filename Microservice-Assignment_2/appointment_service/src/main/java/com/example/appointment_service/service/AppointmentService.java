@@ -1,0 +1,73 @@
+package com.example.appointment_service.service;
+
+import com.example.appointment_service.event.AppointmentConfirmedEvent;
+import com.example.appointment_service.model.Appointment;
+import com.example.appointment_service.repository.AppointmentRepository;
+import org.springframework.context.ApplicationEventPublisher;
+import org.springframework.stereotype.Service;
+import org.springframework.web.client.RestTemplate;
+
+import java.util.List;
+
+@Service
+public class AppointmentService {
+
+    private final AppointmentRepository repository;
+    private final RestTemplate restTemplate;
+    private final ApplicationEventPublisher publisher;
+
+    public AppointmentService(AppointmentRepository repository,
+                              RestTemplate restTemplate,
+                              ApplicationEventPublisher publisher) {
+        this.repository = repository;
+        this.restTemplate = restTemplate;
+        this.publisher = publisher;
+    }
+
+    // 📌 Book appointment by patient + doctor + slot
+    public Appointment bookAppointment(Long patientId, Long doctorId, String timeSlot) {
+        // Call Doctor Service to block slot
+        String url = "http://localhost:2222/api/doctors/" + doctorId + "/block?time=" + timeSlot;
+        Boolean slotBooked = restTemplate.postForObject(url, null, Boolean.class);
+
+        if (slotBooked != null && slotBooked) {
+            Appointment appointment = new Appointment(patientId, doctorId, timeSlot, "BOOKED");
+            Appointment saved = repository.save(appointment);
+
+            // 🔔 Publish event after saving
+            publisher.publishEvent(
+                new AppointmentConfirmedEvent(saved.getId(), saved.getPatientId(), saved.getDoctorId())
+            );
+
+            return saved;
+        } else {
+            throw new RuntimeException("Slot not available for booking!");
+        }
+    }
+
+    // 📌 Reschedule appointment
+    public Appointment rescheduleAppointment(Long appointmentId, String newTimeSlot) {
+        Appointment appointment = repository.findById(appointmentId).orElseThrow();
+
+        // Cancel old slot
+        cancelAppointment(appointmentId);
+
+        // Try booking new slot
+        return bookAppointment(appointment.getPatientId(), appointment.getDoctorId(), newTimeSlot);
+    }
+
+    // 📌 Cancel appointment
+    public void cancelAppointment(Long appointmentId) {
+        Appointment appointment = repository.findById(appointmentId).orElseThrow();
+        appointment.setStatus("CANCELLED");
+        repository.save(appointment);
+    }
+
+    public List<Appointment> getAllAppointments() {
+        return repository.findAll();
+    }
+
+    public Appointment getAppointment(Long id) {
+        return repository.findById(id).orElse(null);
+    }
+}

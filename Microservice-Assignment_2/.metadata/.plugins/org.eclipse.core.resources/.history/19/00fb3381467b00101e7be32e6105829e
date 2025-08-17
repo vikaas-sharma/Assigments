@@ -1,0 +1,40 @@
+package com.example.billing_service.model;
+
+import jakarta.persistence.*;
+import java.time.LocalDateTime;
+
+@Entity
+@Table(name = "bills")
+public class Bill {
+
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
+
+    private Long patientId;    // from Patient Service
+    private Long doctorId;     // from Doctor Service
+    private Long appointmentId; // from Appointment Service
+
+    private double amount;
+    private String status; // PENDING, PAID, FAILED
+    private String paymentMethod; // CASH, CARD, INSURANCE
+
+    private String insuranceProvider;
+    private String insuranceClaimStatus; // SUBMITTED, APPROVED, REJECTED
+
+    private LocalDateTime createdAt;
+
+    public Bill() {}
+
+    public Bill(Long patientId, Long doctorId, Long appointmentId, double amount, String status, String paymentMethod, String insuranceProvider, String insuranceClaimStatus) {
+        this.patientId = patientId;
+        this.doctorId = doctorId;
+        this.appointmentId = appointmentId;
+        this.amount = amount;
+        this.status = status;
+        this.paymentMethod = paymentMethod;
+        this.insuranceProvider = insuranceProvider;
+        this.insuranceClaimStatus = insuranceClaimStatus;
+        this.createdAt = LocalDateTime.now();
+    }
+}

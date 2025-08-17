@@ -1,0 +1,25 @@
+package com.example.doctor_service.model;
+
+@Entity
+@Table(name = "doctor_schedule")
+public class DoctorSchedule {
+
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
+
+    private Long doctorId;        // kis doctor ka slot hai
+    private String timeSlot;      // e.g. 2025-08-17T10:00
+    private boolean booked;       // true = booked, false = available
+
+    public DoctorSchedule() {}
+
+    public DoctorSchedule(Long doctorId, String timeSlot, boolean booked) {
+        this.doctorId = doctorId;
+        this.timeSlot = timeSlot;
+        this.booked = booked;
+    }
+
+    // getters/setters
+}
+

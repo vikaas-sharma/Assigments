@@ -1,0 +1,30 @@
+package com.example.medical_records_service.service;
+
+
+import com.example.medical_records_service.model.MedicalRecord;
+import com.example.medical_records_service.repository.MedicalRecordRepository;
+import org.springframework.stereotype.Service;
+
+import java.util.List;
+
+@Service
+public class MedicalRecordService {
+
+    private final MedicalRecordRepository repository;
+
+    public MedicalRecordService(MedicalRecordRepository repository) {
+        this.repository = repository;
+    }
+
+    public MedicalRecord saveRecord(MedicalRecord record) {
+        return repository.save(record);
+    }
+
+    public List<MedicalRecord> getRecordsByPatient(Long patientId) {
+        return repository.findByPatientId(patientId);
+    }
+
+    public List<MedicalRecord> getAllRecords() {
+        return repository.findAll();
+    }
+}

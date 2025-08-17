@@ -1,0 +1,47 @@
+package com.example.appointment_service.controller;
+
+import com.example.appointment_service.model.Appointment;
+import com.example.appointment_service.service.AppointmentService;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
+
+@RestController
+@RequestMapping("/api/appointments")
+public class AppointmentController {
+
+    private final AppointmentService service;
+
+    public AppointmentController(AppointmentService service) {
+        this.service = service;
+    }
+
+    @PostMapping("/book")
+    public Appointment bookAppointment(@RequestParam Long patientId,
+                                       @RequestParam Long doctorId,
+                                       @RequestParam String timeSlot) {
+        return service.bookAppointment(patientId, doctorId, timeSlot);
+    }
+
+    @PutMapping("/reschedule/{id}")
+    public Appointment reschedule(@PathVariable Long id,
+                                  @RequestParam String newTimeSlot) {
+        return service.rescheduleAppointment(id, newTimeSlot);
+    }
+
+    @PutMapping("/cancel/{id}")
+    public String cancel(@PathVariable Long id) {
+        service.cancelAppointment(id);
+        return "Appointment cancelled successfully!";
+    }
+
+    @GetMapping
+    public List<Appointment> getAll() {
+        return service.getAllAppointments();
+    }
+
+    @GetMapping("/{id}")
+    public Appointment getById(@PathVariable Long id) {
+        return service.getAppointment(id);
+    }
+}

@@ -1,0 +1,5 @@
+package com.example.medical_records_service.controller;
+
+public class MedicalRecordController {
+
+}

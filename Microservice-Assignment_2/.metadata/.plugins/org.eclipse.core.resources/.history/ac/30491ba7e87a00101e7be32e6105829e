@@ -1,0 +1,5 @@
+package com.example.appointment_service.service;
+
+public class AppointmentService {
+
+}

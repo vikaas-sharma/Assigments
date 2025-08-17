@@ -1,0 +1,53 @@
+package com.example.medical_records_service.model;
+
+package com.example.medicalrecords.model;
+
+import jakarta.persistence.*;
+
+@Entity
+@Table(name = "medical_records")
+public class MedicalRecord {
+
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
+
+    private Long patientId;
+    private String visitDate;
+    private String doctorName;
+    private String diagnosis;
+    private String prescription;
+    private String testResults;
+
+    public MedicalRecord() {}
+
+    public MedicalRecord(Long patientId, String visitDate, String doctorName, String diagnosis) {
+        this.patientId = patientId;
+        this.visitDate = visitDate;
+        this.doctorName = doctorName;
+        this.diagnosis = diagnosis;
+    }
+
+    // Getters and Setters
+
+    public Long getId() { return id; }
+    public void setId(Long id) { this.id = id; }
+
+    public Long getPatientId() { return patientId; }
+    public void setPatientId(Long patientId) { this.patientId = patientId; }
+
+    public String getVisitDate() { return visitDate; }
+    public void setVisitDate(String visitDate) { this.visitDate = visitDate; }
+
+    public String getDoctorName() { return doctorName; }
+    public void setDoctorName(String doctorName) { this.doctorName = doctorName; }
+
+    public String getDiagnosis() { return diagnosis; }
+    public void setDiagnosis(String diagnosis) { this.diagnosis = diagnosis; }
+
+    public String getPrescription() { return prescription; }
+    public void setPrescription(String prescription) { this.prescription = prescription; }
+
+    public String getTestResults() { return testResults; }
+    public void setTestResults(String testResults) { this.testResults = testResults; }
+}
