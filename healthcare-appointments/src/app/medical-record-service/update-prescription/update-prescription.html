@@ -1,0 +1,15 @@
+<p>update-prescription works!</p>
+<div class="container mt-4">
+  <h2>Update Prescription</h2>
+  <form (ngSubmit)="update()">
+    <div class="mb-2">
+      <label for="rid">Record ID</label>
+      <input id="rid" [(ngModel)]="recordId" name="recordId" type="number" class="form-control" required>
+    </div>
+    <div class="mb-2">
+      <label for="pres">Prescription</label>
+      <input id="pres" [(ngModel)]="prescription" name="prescription" class="form-control" required>
+    </div>
+    <button class="btn btn-primary">Update</button>
+  </form>
+</div>

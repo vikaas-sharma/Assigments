@@ -1,0 +1,17 @@
+.navbar {
+  display: flex;              /* Horizontal banane ke liye */
+  gap: 20px;                  /* Links ke beech space */
+  background-color: #52a345;  /* Blue background */
+  padding: 10px 20px;
+}
+
+.navbar a {
+  color: rgb(1, 4, 1);
+  text-decoration: none;
+  font-weight: bold;
+}
+
+.navbar a:hover {
+  text-decoration: underline;
+  color: #cacbca;
+}

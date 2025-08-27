@@ -1,0 +1,33 @@
+<p>add-bill works!</p>
+<p>add-bill works!</p>
+<div class="container mt-4">
+  <h2>Create Bill</h2>
+  <form (ngSubmit)="save()">
+    <div class="mb-2">
+      <label for="patientId">Patient ID</label>
+      <input id="patientId" [(ngModel)]="bill.patientId" name="patientId" class="form-control" required>
+    </div>
+
+    <div class="mb-2">
+      <label for="doctorId">Doctor ID</label>
+      <input id="doctorId" [(ngModel)]="bill.doctorId" name="doctorId" class="form-control" required>
+    </div>
+
+    <div class="mb-2">
+      <label for="appointmentId">Appointment ID</label>
+      <input id="appointmentId" [(ngModel)]="bill.appointmentId" name="appointmentId" class="form-control" required>
+    </div>
+
+    <div class="mb-2">
+      <label for="amount">Amount</label>
+      <input id="amount" type="number" [(ngModel)]="bill.amount" name="amount" class="form-control" required>
+    </div>
+
+    <div class="mb-2">
+      <label for="insuranceProvider">Insurance Provider</label>
+      <input id="insuranceProvider" [(ngModel)]="bill.insuranceProvider" name="insuranceProvider" class="form-control">
+    </div>
+
+    <button class="btn btn-success">Save</button>
+  </form>
+</div>

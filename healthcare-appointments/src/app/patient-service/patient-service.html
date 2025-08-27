@@ -1,0 +1,47 @@
+<p>patient-service works!</p>
+
+<div class="container">
+  <h2>Patient Management</h2>
+
+  <!-- Patient Form -->
+  <form (ngSubmit)="savePatient()" #patientForm="ngForm">
+    <input [(ngModel)]="patient.firstName" name="firstName" placeholder="First Name" required />
+    <input [(ngModel)]="patient.lastName" name="lastName" placeholder="Last Name" required />
+    <input [(ngModel)]="patient.dob" name="dob" type="date" placeholder="DOB" required />
+    <input [(ngModel)]="patient.gender" name="gender" placeholder="Gender" />
+    <input [(ngModel)]="patient.insuranceProvider" name="insuranceProvider" placeholder="Insurance Provider" />
+    <input [(ngModel)]="patient.insuranceNumber" name="insuranceNumber" placeholder="Insurance Number" />
+    <input [(ngModel)]="patient.phone" name="phone" placeholder="Phone" />
+    <input [(ngModel)]="patient.email" name="email" placeholder="Email" />
+    <input [(ngModel)]="patient.address" name="address" placeholder="Address" />
+
+    <button type="submit">{{ editing ? 'Update' : 'Add' }} Patient</button>
+    <button type="button" (click)="resetForm()">Clear</button>
+  </form>
+
+  <!-- Patient List -->
+  <h3>All Patients</h3>
+  <table border="1" width="100%">
+    <thead>
+      <tr>
+        <th>ID</th><th>Name</th><th>DOB</th><th>Gender</th><th>Phone</th><th>Email</th><th>Actions</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let p of patients">
+        <td>{{ p.id }}</td>
+        <td>{{ p.firstName }} {{ p.lastName }}</td>
+        <td>{{ p.dob }}</td>
+        <td>{{ p.gender }}</td>
+        <td>{{ p.phone }}</td>
+        <td>{{ p.email }}</td>
+        <td>
+          <button (click)="editPatient(p)">Edit</button>
+          <button (click)="deletePatient(p.id)">Delete</button>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+
+<a routerLink="/">back</a>

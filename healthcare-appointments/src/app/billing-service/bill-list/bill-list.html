@@ -1,0 +1,45 @@
+<p>bill-list works!</p>
+<div class="container mt-4">
+  <h2>Billing Records</h2>
+  <a routerLink="/add-bill" class="btn btn-primary mb-3">Create Bill</a>
+  
+  <table class="table table-bordered">
+    <thead>
+      <tr>
+        <th>ID</th><th>Patient</th><th>Doctor</th><th>Appointment</th>
+        <th>Amount</th><th>Status</th><th>Payment Method</th>
+        <th>Insurance</th><th>Claim Status</th><th>Actions</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let bill of bills">
+        <td>{{ bill.id }}</td>
+        <td>{{ bill.patientId }}</td>
+        <td>{{ bill.doctorId }}</td>
+        <td>{{ bill.appointmentId }}</td>
+        <td>{{ bill.amount }}</td>
+        <td>{{ bill.status }}</td>
+        <td>{{ bill.paymentMethod }}</td>
+        <td>{{ bill.insuranceProvider }}</td>
+        <td>{{ bill.insuranceClaimStatus }}</td>
+        <td>
+          <!-- Pay -->
+          <button class="btn btn-success btn-sm"
+            (click)="payBill(bill.id!, 'CASH')">Pay Cash</button>
+          <button class="btn btn-info btn-sm"
+            (click)="payBill(bill.id!, 'CARD')">Pay Card</button>
+          <button class="btn btn-warning btn-sm"
+            (click)="payBill(bill.id!, 'INSURANCE')">Pay Insurance</button>
+          
+          <!-- Insurance Status -->
+          <button class="btn btn-outline-primary btn-sm"
+            (click)="updateInsurance(bill.id!, 'SUBMITTED')">Submit</button>
+          <button class="btn btn-outline-success btn-sm"
+            (click)="updateInsurance(bill.id!, 'APPROVED')">Approve</button>
+          <button class="btn btn-outline-danger btn-sm"
+            (click)="updateInsurance(bill.id!, 'REJECTED')">Reject</button>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</div>

@@ -1,0 +1,27 @@
+<p>appointment-list works!</p>
+    <h2>Appointments</h2>
+    <table border="1" width="100%">
+      <thead>
+        <tr>
+          <th>ID</th>
+          <th>Patient ID</th>
+          <th>Doctor ID</th>
+          <th>Time Slot</th>
+          <th>Status</th>
+          <th>Actions</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let appt of appointments">
+          <td>{{ appt.id }}</td>
+          <td>{{ appt.patientId }}</td>
+          <td>{{ appt.doctorId }}</td>
+          <td>{{ appt.timeSlot }}</td>
+          <td>{{ appt.status }}</td>
+          <td>
+            <button (click)="cancel(appt.id!)">Cancel</button>
+            <button (click)="reschedule(appt.id!)">Reschedule</button>
+          </td>
+        </tr>
+      </tbody>
+    </table>

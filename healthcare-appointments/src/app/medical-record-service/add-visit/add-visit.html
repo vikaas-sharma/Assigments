@@ -1,0 +1,23 @@
+<p>add-visit works!</p>
+<div class="container mt-4">
+  <h2>Add Visit</h2>
+  <form (ngSubmit)="save()">
+    <div class="mb-2">
+      <label for="pid">Patient ID</label>
+      <input id="pid" [(ngModel)]="record.patientId" name="patientId" class="form-control" required>
+    </div>
+    <div class="mb-2">
+      <label for="date">Visit Date</label>
+      <input id="date" type="date" [(ngModel)]="record.visitDate" name="visitDate" class="form-control" required>
+    </div>
+    <div class="mb-2">
+      <label for="doc">Doctor Name</label>
+      <input id="doc" [(ngModel)]="record.doctorName" name="doctorName" class="form-control" required>
+    </div>
+    <div class="mb-2">
+      <label for="diag">Diagnosis</label>
+      <input id="diag" [(ngModel)]="record.diagnosis" name="diagnosis" class="form-control" required>
+    </div>
+    <button class="btn btn-success">Save</button>
+  </form>
+</div>

@@ -1,0 +1,15 @@
+<p>appointment-book works!</p>
+ <h2>Book Appointment</h2>
+<form (ngSubmit)="book()">
+      <label for="patientId">Patient ID:</label>
+      <input [(ngModel)]="patientId" name="patientId" required />
+
+      <label for="doctorId">Doctor ID:</label>
+      <input [(ngModel)]="doctorId" name="doctorId" required />
+
+      <label for="timeSlot">Time Slot:</label>
+      <input [(ngModel)]="timeSlot" name="timeSlot" required />
+
+      <button type="submit">Book</button>
+</form>
+<p *ngIf="message">{{ message }}</p>
